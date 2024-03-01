@@ -3,15 +3,12 @@
 
 # include "../libft/libft.h"
 # include "../mlx/mlx.h"
+# include "math.h"
 
-typedef	struct s_game
+typedef struct s_map
 {
-	int		screenWidth;
-	int		screenHeight;
-	int		exit;
-	void	*mlx;
-	void	*mlx_win;
-}	t_game;
+	int	world_map[24][24];
+}	t_map;
 
 typedef struct s_player
 {
@@ -22,5 +19,20 @@ typedef struct s_player
 	double	planeX;
 	double	planeY;
 }	t_player;
+
+typedef	struct s_game
+{
+	int			screenWidth;
+	int			screenHeight;
+	int			exit;
+	void		*mlx;
+	void		*mlx_win;
+	void		*mlx_img;
+	t_player	player;
+	t_map		map;
+}	t_game;
+
+void	raycasting(t_game *game);
+void	drawline(int xOrigin, int yStart, int yEnd, t_game *game);
 
 #endif
