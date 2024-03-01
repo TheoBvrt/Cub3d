@@ -1,5 +1,5 @@
 NAME = cub3D
-SRCS = ./src/main.c
+SRCS = ./src/main.c ./src/game.c
 
 OBJS = ${SRCS:.c=.o}
 CC = gcc
