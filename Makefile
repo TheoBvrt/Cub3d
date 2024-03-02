@@ -4,7 +4,7 @@ SRCS = ./src/main.c ./src/game.c ./src/render.c
 OBJS = ${SRCS:.c=.o}
 CC = gcc
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 all : ${NAME}
 

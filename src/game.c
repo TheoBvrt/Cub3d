@@ -11,6 +11,9 @@ void raycasting(t_game *game)
 	int mapY;
 
 	x = 0;
+	draw_ground(game);
+	draw_sky(game);
+
 	while (x < game->screenWidth)
 	{
 		cameraX = 2 * x / (double)game->screenWidth - 1;
@@ -80,8 +83,8 @@ void raycasting(t_game *game)
      	if(drawStart < 0) drawStart = 0;
       	int drawEnd = lineHeight / 2 + game->screenHeight / 2;
       	if(drawEnd >= game->screenHeight) drawEnd = game->screenHeight - 1;
-
 		drawline(x, drawStart, drawEnd, game);
 		x++;
 	}
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->data.img, 0, 0);
 }
