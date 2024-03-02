@@ -69,6 +69,8 @@ int main(int argc, char *argv[])
 		return (1);
 	game.mlx = mlx_init();
 	game.mlx_win = mlx_new_window(game.mlx, game.screenWidth, game.screenHeight, "Cub3D");
+	draw_ground(&game);
+	draw_sky(&game);
 	raycasting(&game);
 	mlx_loop(game.mlx);
 	return (0);

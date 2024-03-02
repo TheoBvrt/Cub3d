@@ -34,5 +34,7 @@ typedef	struct s_game
 
 void	raycasting(t_game *game);
 void	drawline(int xOrigin, int yStart, int yEnd, t_game *game);
+void	draw_ground(t_game *game);
+void	draw_sky(t_game *game);
 
 #endif
