@@ -26,6 +26,11 @@ typedef struct s_player
 	double	dirY;
 	double	planeX;
 	double	planeY;
+	double	moveSpeed;
+	int		isForward;
+	int		isBackward;
+	int		isTurnLeft;
+	int		isTurnRight;
 }	t_player;
 
 typedef	struct s_game
