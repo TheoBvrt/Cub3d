@@ -45,6 +45,13 @@ typedef struct s_player
 	int		isTurnRight;
 }	t_player;
 
+typedef struct s_image
+{
+	int	ph;
+	int	pw;
+	void	*texture;
+}	t_image;
+
 typedef	struct s_game
 {
 	int			screenWidth;
@@ -53,6 +60,7 @@ typedef	struct s_game
 	void		*mlx;
 	void		*mlx_win;
 	void		*mlx_img;
+	t_image		image;
 	t_player	player;
 	t_data		data;
 	t_map		map;

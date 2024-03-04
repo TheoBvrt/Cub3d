@@ -7,10 +7,10 @@ void draw_ground(t_game *game)
 
 	y = game->screenHeight / 2;
 	x = 0;
-	while (y <= game->screenHeight)
+	while (y < game->screenHeight)
 	{
-		while (x <= game->screenWidth) {
-			my_mlx_pixel_put(&game->data, x, y, green);
+		while (x < game->screenWidth) {
+			my_mlx_pixel_put(&game->data, x, y, 0xFFFFFF);
 			x++;
 		}
 		x = 0;
@@ -25,9 +25,9 @@ void	draw_sky(t_game *game)
 
 	y = 0;
 	x = 0;
-	while (y <= game->screenHeight / 2)
+	while (y < game->screenHeight / 2)
 	{
-		while (x <= game->screenWidth) {
+		while (x < game->screenWidth) {
 			my_mlx_pixel_put(&game->data, x, y, black);
 			x++;
 		}

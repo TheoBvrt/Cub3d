@@ -2,6 +2,7 @@
 
 void raycasting(t_game *game)
 {
+	unsigned int buffer[game->screenHeight][game->screenWidth];
 	int		x;
 	double	cameraX;
 	double	rayDirX;
@@ -71,6 +72,7 @@ void raycasting(t_game *game)
 			}
 			if(game->map.world_map[mapX][mapY] > 0) hit = 1;
 		}
+		int pitch = 100;
 
 		if(side == 0)
 			perpWallDist = (sideDistX - deltaDistX);
@@ -79,12 +81,42 @@ void raycasting(t_game *game)
 
 		int lineHeight = (int)(game->screenHeight / perpWallDist);
 
-		int drawStart = -lineHeight / 2 + game->screenHeight / 2;
+		int drawStart = -lineHeight / 2 + game->screenHeight / 2 + pitch;
      	if(drawStart < 0) drawStart = 0;
-      	int drawEnd = lineHeight / 2 + game->screenHeight / 2;
+      	int drawEnd = lineHeight / 2 + game->screenHeight / 2 + pitch;
       	if(drawEnd >= game->screenHeight) drawEnd = game->screenHeight - 1;
 
+		double wallX;
+		if (side == 0)
+			wallX = game->player.posY + perpWallDist * rayDirY;
+		else
+			wallX = game->player.posX + perpWallDist * rayDirX;
+		wallX -= floor((wallX));
 
+		int texX = (int)(wallX * (double)64);
+		if (side == 0 && rayDirX > 0)
+			texX = 64 - texX - 1;
+		if (side == 0 && rayDirY < 0)
+			texX = 64 - texX - 1;
+		
+		double step = 1.0 * 64 / lineHeight;
+		double texPost = (drawStart - pitch - game->screenHeight / 2 + lineHeight / 2) * step;
+
+		int bpp;
+		int size_line;
+		int endian;
+
+		char *texture_data = mlx_get_data_addr(game->image.texture, &bpp, &size_line, &endian);
+
+		for(int y = drawStart; y < drawEnd; y++)
+		{
+			int texY = (int)texPost & (64 - 1);
+			texPost += step;
+			unsigned int color = *(int*)(texture_data + (texY * size_line + texX * (bpp / 8)));
+			if(side == 1) color = (color >> 1) & 8355711;
+			buffer[y][x] = color;
+		}
+		/*
 		if (game->map.world_map[mapX][mapY] == 1)
 		{
 			if (side == 0)
@@ -102,8 +134,17 @@ void raycasting(t_game *game)
 					color = purple; //est
 			}
 		}
-		drawline(x, drawStart, drawEnd, game, color);
+		drawline(x, drawStart, drawEnd, game, color);*/
 		x++;
 	}
+	/*int bpp, size_line, endian;
+	char *img_data = mlx_get_data_addr(game->data.img, &bpp, &size_line, &endian);
+
+	for (int y = 0; y < game->screenHeight; y++) {
+		for (int x = 0; x < game->screenWidth; x++) {
+			int pos = (y * size_line) + (x * (bpp / 8));
+				*(unsigned int*)(img_data + pos) = buffer[y][x];
+		}
+	}*/
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->data.img, 0, 0);
 }

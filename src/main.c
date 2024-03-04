@@ -2,6 +2,8 @@
 
 int	cube3d_init(t_game *game)
 {
+	void	*texture;
+
 	int tmp[8][8]=
 	{
 		{1,1,1,1,1,1,1,1},
@@ -33,6 +35,11 @@ int	cube3d_init(t_game *game)
 	return (0);
 }
 
+void	image_load(t_game *game)
+{
+	game->image.texture = mlx_xpm_file_to_image(game->mlx, "./images/north.xpm", &game->image.pw, &game->image.ph);
+}
+
 void	drawline(int xOrigin, int yStart, int yEnd, t_game *game, int color) {
 	int x;
 	int y;
@@ -52,6 +59,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
+	//ft_printf("test");
 }
 
 void	clear_win(t_game *game, t_data *img)
@@ -134,11 +142,8 @@ int	update(t_game *game)
 		game->player.planeX = game->player.planeX * cos(game->player.moveSpeed) - game->player.planeY * sin(game->player.moveSpeed);
 		game->player.planeY = oldPlaneX * sin(game->player.moveSpeed) + game->player.planeY * cos(game->player.moveSpeed);
 	}
-	clear_win(game, &game->data);
-	draw_ground(game);
-	draw_sky(game);
-	raycasting(game);
-	
+	//raycasting(game);
+	//clear_win(game, &game->data);
 	return (0);
 }
 
@@ -153,9 +158,7 @@ void	hooks(t_game *game)
 int main(int argc, char *argv[])
 {
 		t_game		game;
-		t_data		img;
 
-		game.data = img;
 		if (cube3d_init(&game) == 1)
 			return (1);
 		game.player.isForward = 1;
@@ -168,7 +171,11 @@ int main(int argc, char *argv[])
 		game.data.img = mlx_new_image(game.mlx, game.screenWidth, game.screenHeight);
 		game.data.addr = mlx_get_data_addr(game.data.img, &game.data.bits_per_pixel, &game.data.line_length,
 									&game.data.endian);
-		raycasting(&game);
+		//image_load(&game);
+		//raycasting(&game);
+		//my_mlx_pixel_put(&game.data, 50, 50, red);z
+		//draw_ground(&game);
+		//clear_win(&game, &game.data);
 		hooks(&game);
 		return (0);
 }
