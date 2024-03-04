@@ -6,14 +6,12 @@ void raycasting(t_game *game)
 	double	cameraX;
 	double	rayDirX;
 	double	rayDirY;
+	int		color;
 
 	int mapX;
 	int mapY;
 
 	x = 0;
-	draw_ground(game);
-	draw_sky(game);
-
 	while (x < game->screenWidth)
 	{
 		cameraX = 2 * x / (double)game->screenWidth - 1;
@@ -61,21 +59,23 @@ void raycasting(t_game *game)
 		{
 			if(sideDistX < sideDistY)
 			{
-			sideDistX += deltaDistX;
-			mapX += stepX;
-			side = 0;
+				sideDistX += deltaDistX;
+				mapX += stepX;
+				side = 0;
 			}
 			else
 			{
-			sideDistY += deltaDistY;
-			mapY += stepY;
-			side = 1;
+				sideDistY += deltaDistY;
+				mapY += stepY;
+				side = 1;
 			}
 			if(game->map.world_map[mapX][mapY] > 0) hit = 1;
 		}
 
-		if(side == 0) perpWallDist = (sideDistX - deltaDistX);
-      	else perpWallDist = (sideDistY - deltaDistY);
+		if(side == 0)
+			perpWallDist = (sideDistX - deltaDistX);
+      	else
+			perpWallDist = (sideDistY - deltaDistY);
 
 		int lineHeight = (int)(game->screenHeight / perpWallDist);
 
@@ -83,7 +83,26 @@ void raycasting(t_game *game)
      	if(drawStart < 0) drawStart = 0;
       	int drawEnd = lineHeight / 2 + game->screenHeight / 2;
       	if(drawEnd >= game->screenHeight) drawEnd = game->screenHeight - 1;
-		drawline(x, drawStart, drawEnd, game);
+
+
+		if (game->map.world_map[mapX][mapY] == 1)
+		{
+			if (side == 0)
+			{
+				if (rayDirX > 0)
+					color = red; //nord
+				else
+					color = orange; //sud
+			}
+			else
+			{
+				if (rayDirY > 0)
+					color = white; //ouest
+				else
+					color = purple; //est
+			}
+		}
+		drawline(x, drawStart, drawEnd, game, color);
 		x++;
 	}
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->data.img, 0, 0);

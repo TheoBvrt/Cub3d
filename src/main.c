@@ -2,36 +2,20 @@
 
 int	cube3d_init(t_game *game)
 {
-	int tmp[24][24]=
+	int tmp[8][8]=
 	{
-		{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7},
-		{4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-		{4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-		{4,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-		{4,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-		{4,0,4,0,0,0,0,5,5,5,5,5,5,5,5,5,7,7,0,7,7,7,7,7},
-		{4,0,5,0,0,0,0,5,0,5,0,5,0,5,0,5,7,0,0,0,7,7,7,1},
-		{4,0,6,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-		{4,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,1},
-		{4,0,8,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-		{4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,7,7,7,1},
-		{4,0,0,0,0,0,0,5,5,5,5,0,5,5,5,5,7,7,7,7,7,7,7,1},
-		{6,6,6,6,6,6,6,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-		{8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
-		{6,6,6,6,6,6,0,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-		{4,4,4,4,4,4,0,4,4,4,6,0,6,2,2,2,2,2,2,2,3,3,3,3},
-		{4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-		{4,0,0,0,0,0,0,0,0,0,0,0,6,2,0,0,5,0,0,2,0,0,0,2},
-		{4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-		{4,0,6,0,6,0,0,0,0,4,6,0,0,0,0,0,5,0,0,0,0,0,0,2},
-		{4,0,0,5,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-		{4,0,6,0,6,0,0,0,0,4,6,0,6,2,0,0,5,0,0,2,0,0,0,2},
-		{4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-		{4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3} 
+		{1,1,1,1,1,1,1,1},
+		{1,0,0,0,0,0,0,1},
+		{1,0,0,1,0,0,0,1},
+		{1,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,1},
+		{1,1,1,1,1,1,1,1},
 	};
 
-    for (int i = 0; i < 24; i++) {
-        for (int j = 0; j < 24; j++) {
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
             game->map.world_map[i][j] = tmp[i][j];
         }
     }
@@ -39,8 +23,9 @@ int	cube3d_init(t_game *game)
 	game->screenHeight = 720;
 	game->exit = 0;
 
-	game->player.posX = 4;
+	game->player.posX = 5;
 	game->player.posY = 4;
+
 	game->player.dirX = -1;
 	game->player.dirY = 0;
 	game->player.planeX = 0;
@@ -48,7 +33,7 @@ int	cube3d_init(t_game *game)
 	return (0);
 }
 
-void	drawline(int xOrigin, int yStart, int yEnd, t_game *game) {
+void	drawline(int xOrigin, int yStart, int yEnd, t_game *game, int color) {
 	int x;
 	int y;
 
@@ -56,7 +41,7 @@ void	drawline(int xOrigin, int yStart, int yEnd, t_game *game) {
 	y = yStart;
 	while (y <= yEnd)
 	{
-		my_mlx_pixel_put(&game->data, x, y, 0xFFFFFF);
+		my_mlx_pixel_put(&game->data, x, y, color);
 		y ++;
 	}
 }
@@ -146,7 +131,10 @@ int	update(t_game *game)
 		game->player.planeY = oldPlaneX * sin(game->player.moveSpeed) + game->player.planeY * cos(game->player.moveSpeed);
 	}
 	clear_win(game, &game->data);
+	draw_ground(game);
+	draw_sky(game);
 	raycasting(game);
+	
 	return (0);
 }
 
@@ -170,7 +158,7 @@ int main(int argc, char *argv[])
 		game.player.isBackward = 1;
 		game.player.isTurnLeft = 1;
 		game.player.isTurnRight = 1;
-		game.player.moveSpeed = 0.02;
+		game.player.moveSpeed = 0.04;
 		game.mlx = mlx_init();
 		game.mlx_win = mlx_new_window(game.mlx, game.screenWidth, game.screenHeight, "cub3d");
 		game.data.img = mlx_new_image(game.mlx, game.screenWidth, game.screenHeight);
