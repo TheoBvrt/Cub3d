@@ -28,7 +28,7 @@ void	draw_sky(t_game *game)
 	while (y <= game->screenHeight / 2)
 	{
 		while (x <= game->screenWidth) {
-			my_mlx_pixel_put(&game->data, x, y, blue);
+			my_mlx_pixel_put(&game->data, x, y, black);
 			x++;
 		}
 		x = 0;

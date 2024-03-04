@@ -6,7 +6,7 @@ int	cube3d_init(t_game *game)
 	{
 		{1,1,1,1,1,1,1,1},
 		{1,0,0,0,0,0,0,1},
-		{1,0,0,1,0,0,0,1},
+		{1,1,0,1,0,0,0,1},
 		{1,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,1},
@@ -104,13 +104,17 @@ int	update(t_game *game)
 {
 	if (game->player.isForward == 0)
 	{
-		game->player.posX += game->player.dirX * game->player.moveSpeed;
-		game->player.posY += game->player.dirY * game->player.moveSpeed;
+		if(game->map.world_map[(int)(game->player.posX + game->player.dirX * game->player.moveSpeed)][(int)(game->player.posY)] == 0)
+			game->player.posX += game->player.dirX * game->player.moveSpeed;
+		if(game->map.world_map[(int)(game->player.posX)][(int)(game->player.posY + game->player.dirY * game->player.moveSpeed)] == 0)
+			game->player.posY += game->player.dirY * game->player.moveSpeed;
 	}
 	if (game->player.isBackward == 0)
 	{
-		game->player.posX -= game->player.dirX * game->player.moveSpeed;
-		game->player.posY -= game->player.dirY * game->player.moveSpeed;
+		if(game->map.world_map[(int)(game->player.posX - game->player.dirX * game->player.moveSpeed)][(int)(game->player.posY)] == 0)
+			game->player.posX -= game->player.dirX * game->player.moveSpeed;
+		if(game->map.world_map[(int)(game->player.posX)][(int)(game->player.posY - game->player.dirY * game->player.moveSpeed)] == 0)
+			game->player.posY -= game->player.dirY * game->player.moveSpeed;
 	}
 	if (game->player.isTurnLeft == 0)
 	{
