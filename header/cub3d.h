@@ -50,6 +50,9 @@ typedef struct s_image
 	int	ph;
 	int	pw;
 	void	*texture;
+	void	*stone;
+	void	*brick;
+	void	*coloredstone;
 }	t_image;
 
 typedef	struct s_game
@@ -63,6 +66,7 @@ typedef	struct s_game
 	t_image		image;
 	t_player	player;
 	t_data		data;
+	t_data		game_img;
 	t_map		map;
 }	t_game;
 

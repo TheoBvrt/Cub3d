@@ -10,7 +10,7 @@ void draw_ground(t_game *game)
 	while (y < game->screenHeight)
 	{
 		while (x < game->screenWidth) {
-			my_mlx_pixel_put(&game->data, x, y, 0xFFFFFF);
+			my_mlx_pixel_put(&game->game_img, x, y, green);
 			x++;
 		}
 		x = 0;
