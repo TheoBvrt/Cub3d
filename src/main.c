@@ -111,22 +111,22 @@ void	hooks(t_game *game)
 
 int main(int argc, char *argv[])
 {
-		t_game			game;
-		t_raycasting	ray;
-		if (cube3d_init(&game) == 1)
-			return (1);
-		game.player.isForward = 1;
-		game.player.isBackward = 1;
-		game.player.isTurnLeft = 1;
-		game.player.isTurnRight = 1;
-		game.player.moveSpeed = 0.04;
-		game.mlx = mlx_init();
-		game.mlx_win = mlx_new_window(game.mlx, game.s_w, game.s_h, "cub3d");
-		image_loader(&game);
-		image_init_image(&game);
-		raycasting(&game, &ray);
-		mlx_put_image_to_window(game.mlx, game.mlx_win, game.game_img.img, 0, 0);
-		mlx_put_image_to_window(game.mlx, game.mlx_win, game.data.img, 0, 0);
-		hooks(&game);
-		return (0);
+	t_game			game;
+	t_raycasting	ray;
+	if (cube3d_init(&game) == 1)
+		return (1);
+	game.player.isForward = 1;
+	game.player.isBackward = 1;
+	game.player.isTurnLeft = 1;
+	game.player.isTurnRight = 1;
+	game.player.moveSpeed = 0.04;
+	game.mlx = mlx_init();
+	game.mlx_win = mlx_new_window(game.mlx, game.s_w, game.s_h, "cub3d");
+	image_loader(&game);
+	image_init_image(&game);
+	raycasting(&game, &ray);
+	mlx_put_image_to_window(game.mlx, game.mlx_win, game.game_img.img, 0, 0);
+	mlx_put_image_to_window(game.mlx, game.mlx_win, game.data.img, 0, 0);
+	hooks(&game);
+	return (0);
 }

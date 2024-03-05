@@ -115,4 +115,5 @@ void	raycasting(t_game *game, t_raycasting *ray);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	draw_sky_ground(t_game *game, unsigned int buffer[720][1280]);
 void	set_buffer(t_game *game, unsigned int buffer[720][1280]);
+void	buffer_feel(t_game *gane, t_raycasting *ray, unsigned int b[720][1280]);
 #endif
