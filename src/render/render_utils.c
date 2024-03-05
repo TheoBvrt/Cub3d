@@ -32,3 +32,15 @@ void	buffer_feel(t_game *gane, t_raycasting *ray, unsigned int b[720][1280])
 		b[y][ray->x] = ray->color;
 	}
 }
+
+void	set_value(t_game *game, t_raycasting *ray)
+{
+	ray->hit = 0;
+	ray->camera_x = 2 * ray->x / (double)game->s_w - 1;
+	ray->ray_dir_x = game->player.dirX + game->player.planeX * ray->camera_x;
+	ray->ray_dir_y = game->player.dirY + game->player.planeY * ray->camera_x;
+	ray->map_x = (int)game->player.posX;
+	ray->map_y = (int)game->player.posY;
+	ray->delta_dist_x = (ray->ray_dir_x  == 0) ? 1e30 : fabs(1 / ray->ray_dir_x );
+	ray->delta_dist_y = (ray->ray_dir_y == 0) ? 1e30 : fabs(1 / ray->ray_dir_y);
+}

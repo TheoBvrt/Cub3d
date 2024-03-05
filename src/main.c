@@ -109,6 +109,27 @@ void	hooks(t_game *game)
 	mlx_loop(game->mlx);
 }
 
+void	rotation_to(t_game *game, int orientation)
+{
+	double rotationAngle;
+
+	if (orientation == est)
+		rotationAngle = -M_PI / 2;
+	if (orientation == south)
+		rotationAngle = M_PI;
+	if (orientation == ouest)
+		rotationAngle = M_PI / 2;
+	if (orientation == north)
+		return ;
+
+	double oldDirX = game->player.dirX;
+	game->player.dirX = game->player.dirX * cos(rotationAngle) - game->player.dirY * sin(rotationAngle);
+	game->player.dirY  = oldDirX * sin(rotationAngle) + game->player.dirY * cos(rotationAngle);
+	double oldPlaneX = game->player.planeX;
+	game->player.planeX = game->player.planeX * cos(rotationAngle) - game->player.planeY * sin(rotationAngle);
+	game->player.planeY = oldPlaneX * sin(rotationAngle) + game->player.planeY * cos(rotationAngle);
+}
+
 int main(int argc, char *argv[])
 {
 	t_game			game;
@@ -125,6 +146,7 @@ int main(int argc, char *argv[])
 	image_loader(&game);
 	image_init_image(&game);
 	raycasting(&game, &ray);
+	rotation_to(&game, est);
 	mlx_put_image_to_window(game.mlx, game.mlx_win, game.game_img.img, 0, 0);
 	mlx_put_image_to_window(game.mlx, game.mlx_win, game.data.img, 0, 0);
 	hooks(&game);

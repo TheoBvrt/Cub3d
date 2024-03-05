@@ -20,13 +20,21 @@ enum e_color
 	black = 0x000000
 };
 
+enum e_dir
+{
+	north = 0,
+	south = 1,
+	ouest = 2,
+	est = 3,
+};
+
 typedef struct	s_data {
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+}	t_data;
 
 typedef struct s_map
 {
@@ -50,40 +58,40 @@ typedef struct s_player
 
 typedef	struct s_raycasting
 {
-	int	x;
-	int	map_x;
-	int	map_y;	
-	int	step_x;
-	int	step_y;
-	int	hit;
-	int	side;
-	int	line_height;
-	int	draw_start;
-	int	draw_end;
-	int	tex_x;
-	int	bpp;
-	int	sl;
-	int	end;
+	int				x;
+	int				map_x;
+	int				map_y;	
+	int				step_x;
+	int				step_y;
+	int				hit;
+	int				side;
+	int				line_height;
+	int				draw_start;
+	int				draw_end;
+	int				tex_x;
+	int				bpp;
+	int				sl;
+	int				end;
 	unsigned int	color;
-	double	text_pos;
-	double	step;
-	double	wall_x;
-	double	camera_x;
-	double	ray_dir_x;
-	double	ray_dir_y;
-	double	perp_wall_dist;
-	double	delta_dist_x;
-	double	delta_dist_y;
-	double	side_dist_x;
-	double	side_dist_y;
-	char	*tex_data;
+	double			text_pos;
+	double			step;
+	double			wall_x;
+	double			camera_x;
+	double			ray_dir_x;
+	double			ray_dir_y;
+	double			perp_wall_dist;
+	double			delta_dist_x;
+	double			delta_dist_y;
+	double			side_dist_x;
+	double			side_dist_y;
+	char			*tex_data;
 }	t_raycasting;
 
 
 typedef struct s_image
 {
-	int	ph;
-	int	pw;
+	int		ph;
+	int		pw;
 	void	*texture;
 	void	*stone;
 	void	*brick;
@@ -92,18 +100,18 @@ typedef struct s_image
 
 typedef	struct s_game
 {
-	int			s_w;
-	int			s_h;
-	int			exit;
-	void		*mlx;
-	void		*mlx_win;
-	void		*mlx_img;
+	int				s_w;
+	int				s_h;
+	int				exit;
+	void			*mlx;
+	void			*mlx_win;
+	void			*mlx_img;
 	t_raycasting	ray;
-	t_image		image;
-	t_player	player;
-	t_data		data;
-	t_data		game_img;
-	t_map		map;
+	t_image			image;
+	t_player		player;
+	t_data			data;
+	t_data			game_img;
+	t_map			map;
 }	t_game;
 
 void	update_render(t_game *game);
@@ -116,4 +124,5 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	draw_sky_ground(t_game *game, unsigned int buffer[720][1280]);
 void	set_buffer(t_game *game, unsigned int buffer[720][1280]);
 void	buffer_feel(t_game *gane, t_raycasting *ray, unsigned int b[720][1280]);
+void	set_value(t_game *game, t_raycasting *ray);
 #endif
