@@ -1,4 +1,4 @@
-#include "../header/cub3d.h"
+#include "./../cub3d.h"
 
 int	cube3d_init(t_game *game)
 {
@@ -8,7 +8,7 @@ int	cube3d_init(t_game *game)
 	{
 		{1,1,1,1,1,1,1,1},
 		{1,0,0,0,0,0,0,1},
-		{1,1,0,1,0,0,0,1},
+		{1,1,1,1,0,0,0,1},
 		{1,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,1},
@@ -21,8 +21,8 @@ int	cube3d_init(t_game *game)
             game->map.world_map[i][j] = tmp[i][j];
         }
     }
-	game->screenWidth = 1280;
-	game->screenHeight = 720;
+	game->s_w = 1280;
+	game->s_h = 720;
 	game->exit = 0;
 
 	game->player.posX = 5;
@@ -33,55 +33,6 @@ int	cube3d_init(t_game *game)
 	game->player.planeX = 0;
 	game->player.planeY = 0.66;
 	return (0);
-}
-
-void	image_load(t_game *game)
-{
-	game->image.texture = mlx_xpm_file_to_image(game->mlx, "./images/north.xpm", &game->image.pw, &game->image.ph);
-	game->image.stone = mlx_xpm_file_to_image(game->mlx, "./images/stone.xpm", &game->image.pw, &game->image.ph);
-	game->image.coloredstone = mlx_xpm_file_to_image(game->mlx, "./images/coloredstone.xpm", &game->image.pw, &game->image.ph);
-	game->image.brick = mlx_xpm_file_to_image(game->mlx, "./images/brick.xpm", &game->image.pw, &game->image.ph);
-}
-
-void	drawline(int xOrigin, int yStart, int yEnd, t_game *game, int color) {
-	int x;
-	int y;
-
-	x = xOrigin;
-	y = yStart;
-	while (y <= yEnd)
-	{
-		my_mlx_pixel_put(&game->data, x, y, color);
-		y ++;
-	}
-}
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-	//ft_printf("test");
-}
-
-void	clear_win(t_game *game, t_data *img)
-{
-	int	x;
-	int y;
-
-	x = 0;
-	y = 0;
-	while (y < game->screenHeight)
-	{
-		while (x < game->screenWidth)
-		{
-			my_mlx_pixel_put(&game->game_img, x, y, black);
-			x ++;
-		}
-		x = 0;
-		y++;
-	}
 }
 
 int	key_press(int keycode, t_game *game)
@@ -146,7 +97,7 @@ int	update(t_game *game)
 		game->player.planeX = game->player.planeX * cos(game->player.moveSpeed) - game->player.planeY * sin(game->player.moveSpeed);
 		game->player.planeY = oldPlaneX * sin(game->player.moveSpeed) + game->player.planeY * cos(game->player.moveSpeed);
 	}
-	raycasting(game);
+	raycasting(game, &game->ray);
 	return (0);
 }
 
@@ -160,7 +111,8 @@ void	hooks(t_game *game)
 
 int main(int argc, char *argv[])
 {
-		t_game		game;
+		t_game			game;
+		t_raycasting	ray;
 		if (cube3d_init(&game) == 1)
 			return (1);
 		game.player.isForward = 1;
@@ -169,15 +121,10 @@ int main(int argc, char *argv[])
 		game.player.isTurnRight = 1;
 		game.player.moveSpeed = 0.04;
 		game.mlx = mlx_init();
-		game.mlx_win = mlx_new_window(game.mlx, game.screenWidth, game.screenHeight, "cub3d");
-		game.data.img = mlx_new_image(game.mlx, game.screenWidth, game.screenHeight);
-		game.game_img.img = mlx_new_image(game.mlx, game.screenWidth, game.screenHeight);
-		game.game_img.addr = mlx_get_data_addr(game.game_img.img, &game.game_img.bits_per_pixel, 
-									&game.game_img.line_length, &game.game_img.endian);
-		game.data.addr = mlx_get_data_addr(game.data.img, &game.data.bits_per_pixel, &game.data.line_length,
-									&game.data.endian);		
-		image_load(&game);
-		raycasting(&game);
+		game.mlx_win = mlx_new_window(game.mlx, game.s_w, game.s_h, "cub3d");
+		image_loader(&game);
+		image_init_image(&game);
+		raycasting(&game, &ray);
 		mlx_put_image_to_window(game.mlx, game.mlx_win, game.game_img.img, 0, 0);
 		mlx_put_image_to_window(game.mlx, game.mlx_win, game.data.img, 0, 0);
 		hooks(&game);
