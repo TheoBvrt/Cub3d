@@ -4,20 +4,36 @@ int	cube3d_init(t_game *game)
 {
 	void	*texture;
 
-	int tmp[8][8]=
+	int tmp[24][24]=
 	{
-		{1,1,1,1,1,1,1,1},
-		{1,0,0,0,0,0,0,1},
-		{1,1,1,1,0,0,0,1},
-		{1,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,1},
-		{1,1,1,1,1,1,1,1},
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1},
+		{1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1},
+		{1,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1},
+		{1,0,1,0,0,0,0,1,0,1,0,1,0,1,0,1,1,0,0,0,1,1,1,1},
+		{1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1},
+		{1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1},
+		{1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,0,1,1,1,1},
+		{1,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
+		{1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
+		{1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
+		{1,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,1,0,0,0,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,0,1,0,0,0,1},
+		{1,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,1,1,0,1,1},
+		{1,0,1,0,1,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,1},
+		{1,0,0,1,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,1,1,0,1,1},
+		{1,0,1,0,1,0,0,0,0,1,1,0,1,1,0,0,1,0,0,1,0,0,0,1},
+		{1,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,1,0,0,0,1},
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 	};
 
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
+    for (int i = 0; i < 24; i++) {
+        for (int j = 0; j < 24; j++) {
             game->map.world_map[i][j] = tmp[i][j];
         }
     }
@@ -60,7 +76,6 @@ int	key_release(int keycode, t_game *game)
 		game->player.isTurnRight = 1;
 	return (0);
 }
-
 
 int	update(t_game *game)
 {
@@ -113,15 +128,14 @@ void	rotation_to(t_game *game, int orientation)
 {
 	double rotationAngle;
 
-	if (orientation == est)
+	if (orientation == east)
 		rotationAngle = -M_PI / 2;
 	if (orientation == south)
 		rotationAngle = M_PI;
-	if (orientation == ouest)
+	if (orientation == west)
 		rotationAngle = M_PI / 2;
 	if (orientation == north)
 		return ;
-
 	double oldDirX = game->player.dirX;
 	game->player.dirX = game->player.dirX * cos(rotationAngle) - game->player.dirY * sin(rotationAngle);
 	game->player.dirY  = oldDirX * sin(rotationAngle) + game->player.dirY * cos(rotationAngle);
@@ -134,6 +148,8 @@ int main(int argc, char *argv[])
 {
 	t_game			game;
 	t_raycasting	ray;
+	if (argc != 2)
+		return (1);
 	if (cube3d_init(&game) == 1)
 		return (1);
 	game.player.isForward = 1;
@@ -141,12 +157,15 @@ int main(int argc, char *argv[])
 	game.player.isTurnLeft = 1;
 	game.player.isTurnRight = 1;
 	game.player.moveSpeed = 0.04;
+	game.map.map_path = argv[1];
+
+	checker(&game, argv[1]);
 	game.mlx = mlx_init();
 	game.mlx_win = mlx_new_window(game.mlx, game.s_w, game.s_h, "cub3d");
 	image_loader(&game);
 	image_init_image(&game);
 	raycasting(&game, &ray);
-	rotation_to(&game, est);
+	rotation_to(&game, west);
 	mlx_put_image_to_window(game.mlx, game.mlx_win, game.game_img.img, 0, 0);
 	mlx_put_image_to_window(game.mlx, game.mlx_win, game.data.img, 0, 0);
 	hooks(&game);

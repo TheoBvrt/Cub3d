@@ -1,5 +1,6 @@
 NAME = cub3D
-SRCS = ./src/main.c ./src/render/render_update.c ./src/parsing/images.c ./src/render/draw.c ./src/render/render_utils.c
+SRCS = ./src/main.c ./src/render/render_update.c ./src/parsing/images.c ./src/render/draw.c ./src/render/render_utils.c \
+		./src/parsing/parser.c ./src/parsing/utils.c ./gnl/get_next_line_utils.c ./gnl/get_next_line.c
 OBJS = ${SRCS:.c=.o}
 CC = gcc
 RM = rm -f

@@ -4,6 +4,8 @@
 # include "libft/libft.h"
 # include "mlx/mlx.h"
 # include "math.h"
+# include "gnl/get_next_line.h"
+# include <fcntl.h>
 
 #define WIDTH = 1280
 #define HEIGHT = 720
@@ -24,8 +26,8 @@ enum e_dir
 {
 	north = 0,
 	south = 1,
-	ouest = 2,
-	est = 3,
+	west = 2,
+	east = 3,
 };
 
 typedef struct	s_data {
@@ -38,7 +40,11 @@ typedef struct	s_data {
 
 typedef struct s_map
 {
-	int	world_map[24][24];
+	char	*map_path;
+	char	**tab;
+	int		world_map[24][24];
+	int		height;
+	int		width;
 }	t_map;
 
 typedef struct s_player
@@ -96,7 +102,7 @@ typedef struct s_image
 	void	*stone;
 	void	*brick;
 	void	*coloredstone;
-}	t_image;
+}	t_image; 
 
 typedef	struct s_game
 {
@@ -125,4 +131,7 @@ void	draw_sky_ground(t_game *game, unsigned int buffer[720][1280]);
 void	set_buffer(t_game *game, unsigned int buffer[720][1280]);
 void	buffer_feel(t_game *gane, t_raycasting *ray, unsigned int b[720][1280]);
 void	set_value(t_game *game, t_raycasting *ray);
+int		checker(t_game *game, char *map);
+int	get_map_height(t_game *game);
+int	get_map_width(t_game *game);
 #endif
