@@ -40,7 +40,7 @@ void	ray_calculator(t_game *game, t_raycasting *ray)
 
 void	texture_selector(t_game *game, t_raycasting *ray)
 {
-	if (game->map.world_map[ray->map_x][ray->map_y] == 1)
+	if (game->map.tab[ray->map_x][ray->map_y] == '1')
 	{
 		if (ray->side == 0)
 		{
@@ -105,7 +105,7 @@ void	init_ray(t_game *game, t_raycasting *ray)
 			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
-		if (game->map.world_map[ray->map_x][ray->map_y] > 0)
+		if (game->map.tab[ray->map_x][ray->map_y] == '1')
 			ray->hit = 1;
 	}
 }

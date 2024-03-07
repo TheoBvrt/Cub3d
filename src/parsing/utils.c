@@ -60,3 +60,22 @@ int	get_map_width(t_game *game)
 	close (fd);
 	return (max_len - 1);
 }
+
+void	set_tab_default(t_game *game)
+{
+	int	i;
+	int	z;
+
+	i = 0;
+	z = 0;
+	while (i < game->map.height)
+	{
+		while (z < game->map.width)
+		{
+			game->map.tab[i][z] = '-';
+			z ++;
+		}
+		z = 0;
+		i ++;
+	}
+}

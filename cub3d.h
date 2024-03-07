@@ -42,7 +42,7 @@ typedef struct s_map
 {
 	char	*map_path;
 	char	**tab;
-	int		world_map[24][24];
+	//int		world_map[24][24];
 	int		height;
 	int		width;
 }	t_map;
@@ -134,4 +134,5 @@ void	set_value(t_game *game, t_raycasting *ray);
 int		checker(t_game *game, char *map);
 int	get_map_height(t_game *game);
 int	get_map_width(t_game *game);
+void	set_tab_default(t_game *game);
 #endif

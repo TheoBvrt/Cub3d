@@ -1,48 +1,15 @@
-#include "./../cub3d.h"
+#include "./../cub3d.h" 
 
 int	cube3d_init(t_game *game)
 {
 	void	*texture;
 
-	int tmp[24][24]=
-	{
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1},
-		{1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1},
-		{1,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1},
-		{1,0,1,0,0,0,0,1,0,1,0,1,0,1,0,1,1,0,0,0,1,1,1,1},
-		{1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1},
-		{1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1},
-		{1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,0,1,1,1,1},
-		{1,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,1,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,0,1,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,1,1,0,1,1},
-		{1,0,1,0,1,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,1},
-		{1,0,0,1,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,1,1,0,1,1},
-		{1,0,1,0,1,0,0,0,0,1,1,0,1,1,0,0,1,0,0,1,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,1,0,0,0,1},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-	};
-
-    for (int i = 0; i < 24; i++) {
-        for (int j = 0; j < 24; j++) {
-            game->map.world_map[i][j] = tmp[i][j];
-        }
-    }
 	game->s_w = 1280;
 	game->s_h = 720;
 	game->exit = 0;
 
 	game->player.posX = 5;
-	game->player.posY = 4;
+	game->player.posY = 2;
 
 	game->player.dirX = -1;
 	game->player.dirY = 0;
@@ -82,16 +49,16 @@ int	update(t_game *game)
 	mlx_clear_window(game->mlx, game->mlx_win);
 	if (game->player.isForward == 0)
 	{
-		if(game->map.world_map[(int)(game->player.posX + game->player.dirX * game->player.moveSpeed)][(int)(game->player.posY)] == 0)
+		if(game->map.tab[(int)(game->player.posX + game->player.dirX * game->player.moveSpeed)][(int)(game->player.posY)] == '0')
 			game->player.posX += game->player.dirX * game->player.moveSpeed;
-		if(game->map.world_map[(int)(game->player.posX)][(int)(game->player.posY + game->player.dirY * game->player.moveSpeed)] == 0)
+		if(game->map.tab[(int)(game->player.posX)][(int)(game->player.posY + game->player.dirY * game->player.moveSpeed)] == '0')
 			game->player.posY += game->player.dirY * game->player.moveSpeed;
 	}
 	if (game->player.isBackward == 0)
 	{
-		if(game->map.world_map[(int)(game->player.posX - game->player.dirX * game->player.moveSpeed)][(int)(game->player.posY)] == 0)
+		if(game->map.tab[(int)(game->player.posX - game->player.dirX * game->player.moveSpeed)][(int)(game->player.posY)] == '0')
 			game->player.posX -= game->player.dirX * game->player.moveSpeed;
-		if(game->map.world_map[(int)(game->player.posX)][(int)(game->player.posY - game->player.dirY * game->player.moveSpeed)] == 0)
+		if(game->map.tab[(int)(game->player.posX)][(int)(game->player.posY - game->player.dirY * game->player.moveSpeed)] == '0')
 			game->player.posY -= game->player.dirY * game->player.moveSpeed;
 	}
 	if (game->player.isTurnLeft == 0)
