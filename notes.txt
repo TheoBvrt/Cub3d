@@ -1,0 +1,40 @@
+key management:
+get the esc key
+wasd keys
+
+main struct:
+
+mlx struct:
+img pointer (pointer to what the screen shows)
+win pointer
+
+map struct:
+int **map
+player pos: point
+map width int
+map height int
+
+
+Player struct:
+angle (direction): double (Radians)
+position: int: x and y (in pixels not in the grid)
+FOV: in radian
+left or right: int
+up or down: int
+rotation: int
+
+ray:
+angle: double (angles are always represented in radian (double))
+distance to wall: double
+flag to know when wall hit: int (bol)
+
+
+
+
+Taking a step
+verifiying only the wall position
+
+Drawing:
+start at dir - FOV / 2
+check for a wall in x and y
+render wall depending on which is hit first
